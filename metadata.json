@@ -1,0 +1,6 @@
+{
+  "name": "KMJS Virtual Camera",
+  "description": "Modular Android virtual camera system with RTSP streaming, Camera2/CameraX/Legacy hooking, NPatch compatibility, and real-time diagnostics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
