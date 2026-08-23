@@ -158,6 +158,15 @@ object KMJSModuleLoader {
     }
 
     fun getActiveHook(): CameraHook? = activeCameraHook
-    fun getDecoder(): RtspDecoder? = rtspDecoder
+    fun getDecoder(): RtspDecoder {
+        var decoder = rtspDecoder
+        if (decoder == null) {
+            val frameBuffer = FrameBuffer(capacity = 8, dropSlowFrames = true)
+            decoder = RtspDecoder(frameBuffer)
+            decoder.config = StateRepository.config.value
+            rtspDecoder = decoder
+        }
+        return decoder
+    }
     fun getFrameProvider(): VirtualFrameProvider? = virtualFrameProvider
 }

@@ -102,7 +102,7 @@ fun StreamConfigScreen(
             testPatternEnabled = testPatternEnabled
         )
         StateRepository.updateConfig(updated)
-        KMJSModuleLoader.getDecoder()?.config = updated
+        KMJSModuleLoader.getDecoder().config = updated
         DiagnosticsLogger.rtsp("Stream configuration updated: ${updated.width}x${updated.height} @ ${updated.fps}fps, format=${updated.pixelFormat.displayName}")
     }
 
@@ -222,7 +222,8 @@ fun StreamConfigScreen(
                     Button(
                         onClick = {
                             saveConfig()
-                            KMJSModuleLoader.getDecoder()?.connect(rtspUrl, username, password)
+                            DiagnosticsLogger.rtsp("[UI_ACTION] Connect button tapped for URL: $rtspUrl")
+                            KMJSModuleLoader.getDecoder().connect(rtspUrl, username, password)
                         },
                         modifier = Modifier.weight(1f).testTag("btn_connect_rtsp"),
                         colors = ButtonDefaults.buttonColors(containerColor = VibrantPurple),
@@ -235,7 +236,8 @@ fun StreamConfigScreen(
 
                     Button(
                         onClick = {
-                            KMJSModuleLoader.getDecoder()?.disconnect()
+                            DiagnosticsLogger.rtsp("[UI_ACTION] Disconnect button tapped")
+                            KMJSModuleLoader.getDecoder().disconnect()
                         },
                         modifier = Modifier.weight(1f).testTag("btn_disconnect_rtsp"),
                         colors = ButtonDefaults.buttonColors(containerColor = VibrantPurplePill),
@@ -251,7 +253,8 @@ fun StreamConfigScreen(
                     Button(
                         onClick = {
                             saveConfig()
-                            KMJSModuleLoader.getDecoder()?.start()
+                            DiagnosticsLogger.decoder("[UI_ACTION] Start Decoder button tapped")
+                            KMJSModuleLoader.getDecoder().start()
                         },
                         modifier = Modifier.weight(1f).testTag("btn_start_decoder"),
                         colors = ButtonDefaults.buttonColors(containerColor = VibrantSuccess),
@@ -264,7 +267,8 @@ fun StreamConfigScreen(
 
                     Button(
                         onClick = {
-                            KMJSModuleLoader.getDecoder()?.stop()
+                            DiagnosticsLogger.decoder("[UI_ACTION] Stop Decoder button tapped")
+                            KMJSModuleLoader.getDecoder().stop()
                         },
                         modifier = Modifier.weight(1f).testTag("btn_stop_decoder"),
                         colors = ButtonDefaults.buttonColors(containerColor = VibrantLatencyAlert),
