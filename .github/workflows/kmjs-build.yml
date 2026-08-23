@@ -28,49 +28,10 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Diagnose Gradle Wrapper Checked Out by GitHub Actions
-        run: |
-          echo "=== PWD ==="
-          pwd
-
-          echo "=== Git Commit HEAD ==="
-          git rev-parse HEAD
-
-          echo "=== Git Status Short ==="
-          git status --short
-
-          echo "=== Directory Listing gradle/wrapper/ ==="
-          ls -la gradle/wrapper/
-
-          echo "=== File Details gradle-wrapper.jar ==="
-          ls -l gradle/wrapper/gradle-wrapper.jar
-
-          echo "=== File Type ==="
-          file gradle/wrapper/gradle-wrapper.jar || true
-
-          echo "=== SHA-256 Checksum ==="
-          sha256sum gradle/wrapper/gradle-wrapper.jar || true
-
-          echo "=== Unzip Test ==="
-          unzip -t gradle/wrapper/gradle-wrapper.jar || true
-
-          echo "=== Check GradleWrapperMain.class ==="
-          unzip -l gradle/wrapper/gradle-wrapper.jar | grep GradleWrapperMain || true
-
-          echo "=== Git ls-files ==="
-          git ls-files -s gradle/wrapper/gradle-wrapper.jar || true
-
-          echo "=== Git hash-object ==="
-          git hash-object gradle/wrapper/gradle-wrapper.jar || true
-
-          echo "=== .gitattributes Content ==="
-          cat .gitattributes || true
-
-          echo "=== gradle-wrapper.properties Content ==="
-          cat gradle/wrapper/gradle-wrapper.properties || true
-
-          echo "=== Test java -jar gradle-wrapper.jar ==="
-          java -jar gradle/wrapper/gradle-wrapper.jar --help || true
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.3.1'
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
@@ -78,17 +39,14 @@ jobs:
       - name: Install Android SDK 36
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
-      - name: Make Gradle executable
-        run: chmod +x ./gradlew
-
       - name: Check Gradle
-        run: ./gradlew --version
+        run: gradle --version
 
       - name: Run unit tests
-        run: ./gradlew :app:testDebugUnitTest --stacktrace
+        run: gradle :app:testDebugUnitTest --stacktrace
 
       - name: Build debug APK
-        run: ./gradlew :app:assembleDebug --stacktrace
+        run: gradle :app:assembleDebug --stacktrace
 
       - name: Verify APK
         run: |
