@@ -1,0 +1,11 @@
+# Ensure binary files are treated as binary to prevent corruption
+*.jar binary
+*.so binary
+*.dex binary
+*.apk binary
+*.png binary
+
+# Ensure shell scripts have correct line endings
+gradlew text eol=lf
+gradlew.bat text eol=crlf
+*.properties text
